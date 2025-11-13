@@ -1,0 +1,82 @@
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{hyperref}
+\geometry{margin=1in}
+\setlength{\parskip}{0.9em}
+
+\begin{document}
+
+\begin{center}
+\textbf{\Large Why Do Some Restaurants Survive?}\\
+\textbf{Insights from Yelp and Neighborhood Data in Philadelphia}\\[0.5em]
+Chris Low --- Data Visualization, Project Check-In (Week 6)
+\end{center}
+
+\noindent\textbf{Research Question}\\
+This project asks: \emph{What factors explain why some Philadelphia restaurants stayed open while others closed?}  
+
+Restaurant survival isn’t just about business success. It also reflects the strength of local communities. I’m using Yelp data together with neighborhood income information to see how factors like location, wealth, and customer engagement relate to whether restaurants remain open. At first, I thought wealthier ZIP codes would show higher survival rates, but the data tells a more mixed story. Some middle- and lower-income areas actually have more restaurants that stayed open, possibly because they depend more on local customers or have lower operating costs. This suggests that community engagement, things like frequent reviews, check-ins, and tips, might matter more than income alone.
+
+
+\noindent\textbf{Dataset}\\
+I combined three open datasets to address this question:
+\begin{enumerate}
+  \item \textbf{Yelp Open Dataset} (business, check-in, and tip files): includes each restaurant’s name, category, rating, review count, check-ins, compliments, and open/closed status. Available at \href{https://business.yelp.com/data/resources/open-dataset/}{Yelp Open Dataset}.
+  \item \textbf{Census Income by ZIP} (RowZero CSV): reports median and mean household income for each Philadelphia ZIP code. Available at \href{https://rowzero.io/datasets/income-by-zip-code}{Row Zero}.
+  \item \textbf{Philadelphia ZIP Code Boundaries} (OpenDataPhilly GeoJSON): provides polygon shapes for mapping neighborhood-level data. Available at \href{https://opendataphilly.org/datasets/zip-codes/}{Open Data Philly}.
+\end{enumerate}
+
+From Yelp, the main variables are the restaurant \texttt{name}, \texttt{business\_id}, \texttt{categories}, \texttt{latitude}, \texttt{longitude}, 
+average \texttt{star rating}, \texttt{review\_count}, \texttt{checkin\_count}, \texttt{tip\_count}, 
+average \texttt{compliments}, and the binary \texttt{is\_open} field that indicates whether the restaurant is still operating. 
+From the Census income data, the key variables are \texttt{median\_income}, \texttt{mean\_income}, and total \texttt{population} by ZIP code. 
+The GeoJSON adds a \texttt{geometry} column used to map each ZIP code’s boundaries. 
+Together, these variables capture both local economic context and customer engagement, 
+making the dataset well suited to study what predicts restaurant survival across neighborhoods.
+
+\noindent Each restaurant record is merged with its ZIP-level income information. 
+Aggregating to the ZIP level gives us clear visualization of spatial trends in restaurant survival and wealth.
+
+\noindent\textbf{Preliminary Findings and Visualization Value}\\
+The initial visualizations demonstrate the usefulness of this dataset (shown next page):
+\begin{itemize}
+  \item A choropleth of \emph{Share of Restaurants Still Open by ZIP} reveals clear neighborhood differences in survival rates.
+  \item A choropleth of \emph{Median Household Income by ZIP} highlights economic variation across the city.
+  \item A scatterplot of \emph{Income vs. Restaurant Survival} shows that wealthier ZIPs do not always have more surviving restaurants; several lower-income areas display high resilience.
+\end{itemize}
+
+These results suggest that restaurant survival depends on both economic context and customer engagement. In the next stage of the project, I plan to explore which specific factors are most closely linked to restaurant survival. I’ll start by examining basic patterns in the Yelp data, like how ratings, review counts, and check-ins differ between restaurants that are open and those that are closed. Then I’ll build a simple predictive model, likely a logistic regression or random forest, to see which features best explain whether a restaurant stays open. This will help test whether engagement metrics, reputation, or neighborhood income are the strongest signals of resilience. The results should give a clearer picture of what drives long-term survival in Philadelphia’s restaurant scene.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.75\linewidth]{open.png}
+    \caption{Share of Restaurants Still Open by ZIP }
+    \label{fig:placeholder}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.75\linewidth]{median_income.png}
+    \caption{Median Household Income by ZIP}
+    \label{fig:placeholder}
+\end{figure}
+
+\newpage
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.75\linewidth]{scatterplot.png}
+    \caption{Scatterplot of Income vs Restaurant Survival}
+    \label{fig:placeholder}
+\end{figure}
+
+% \begin{figure}[h!]
+% \centering
+% \includegraphics[width=0.9\textwidth]{pct_open_map.png}\\
+% \includegraphics[width=0.9\textwidth]{median_income_map.png}\\
+% \includegraphics[width=0.75\textwidth]{scatter_income_survival.png}
+% \caption{Preliminary visualizations of restaurant survival and neighborhood income in Philadelphia.}
+% \end{figure}
+
+\end{document}
